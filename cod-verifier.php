@@ -82,6 +82,9 @@ class CODVerifier {
         // NEW: Add popup modal to footer
         add_action('wp_footer', array($this, 'add_popup_modal_to_footer'));
         
+        // NEW: Add blinking error messages after checkout actions
+        add_action('woocommerce_review_order_after_submit', array($this, 'add_error_messages'));
+        
         // Server-side validation with HIGHEST PRIORITY
         add_action('woocommerce_checkout_process', array($this, 'validate_checkout'), 1);
         
@@ -172,6 +175,26 @@ class CODVerifier {
                 </div>
             </div>
             <?php
+        }
+    }
+    
+    // NEW: Add blinking error messages after checkout actions
+    public function add_error_messages() {
+        if (!is_checkout()) {
+            return;
+        }
+        
+        $enable_otp = get_option('cod_verifier_enable_otp', '1');
+        $ui_type = get_option('cod_verifier_ui_type', 'inline');
+        
+        if ($enable_otp === '1') {
+            if ($ui_type === 'inline') {
+                // Inline mode error message
+                echo '<div id="cod-inline-error" class="cod-error-blink">⚠️ Please complete verification before placing the order.</div>';
+            } else {
+                // Popup mode error message
+                echo '<div id="cod-popup-error" class="cod-error-blink">⚠️ Please complete verification before placing the order.</div>';
+            }
         }
     }
     

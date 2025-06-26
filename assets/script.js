@@ -169,6 +169,22 @@ jQuery(document).ready(function($) {
         console.log('COD Verifier: Place order button enabled');
     }
     
+    // ===== NEW: ERROR MESSAGE FUNCTIONS =====
+    
+    function showErrorMessage() {
+        if (settings.uiType === 'inline') {
+            $('#cod-inline-error').show();
+        } else {
+            $('#cod-popup-error').show();
+        }
+        console.log('COD Verifier: Error message shown for UI type:', settings.uiType);
+    }
+    
+    function hideErrorMessage() {
+        $('#cod-inline-error, #cod-popup-error').hide();
+        console.log('COD Verifier: Error messages hidden');
+    }
+    
     // ===== OTP TIMER FUNCTIONALITY =====
     
     function startOTPTimer(duration) {
@@ -386,13 +402,16 @@ jQuery(document).ready(function($) {
 
             if (canPlaceOrder) {
                 $placeOrderButton.prop('disabled', false).removeClass('disabled');
+                hideErrorMessage(); // NEW: Hide error when verification complete
                 console.log('COD Verifier: Verification complete, enabling place order button.');
             } else {
                 $placeOrderButton.prop('disabled', true).addClass('disabled');
+                showErrorMessage(); // NEW: Show error when verification incomplete
                 console.log('COD Verifier: Verification incomplete, disabling place order button.');
             }
         } else {
             $placeOrderButton.prop('disabled', false).removeClass('disabled');
+            hideErrorMessage(); // NEW: Hide error for non-COD
             console.log('COD Verifier: Non-COD selected, enabling place order button.');
         }
     }

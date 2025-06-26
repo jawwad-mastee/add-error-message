@@ -25,7 +25,29 @@
     order: -1; /* Ensure it appears first if inside any flex container */
 }
 
-/* ===== NEW: POPUP MODAL STYLES ===== */
+/* ===== NEW: BLINKING ERROR MESSAGES ===== */
+.cod-error-blink {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 12px 15px;
+    margin-top: 16px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+    animation: blinkWarning 1.3s ease-in-out infinite;
+    border: 1px solid #f5c6cb;
+    display: none; /* Hidden by default */
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+@keyframes blinkWarning {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* ===== POPUP MODAL STYLES ===== */
 .cod-popup-modal {
     position: fixed;
     top: 0;
